@@ -1,0 +1,50 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+
+categories:
+  - title: "Breaking Changes"
+    labels:
+      - breaking-change
+      - semver: major
+  - title: "Features"
+    labels:
+      - type: feature
+      - semver: minor
+  - title: "Fixes"
+    labels:
+      - type: bug
+      - semver: patch
+  - title: "Security"
+    labels:
+      - type: security
+  - title: "Documentation"
+    labels:
+      - type: docs
+  - title: "Maintenance"
+    labels:
+      - type: chore
+      - type: refactor
+      - dependencies
+
+change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
+no-changes-template: "No user-facing changes."
+
+version-resolver:
+  major:
+    labels:
+      - semver: major
+      - breaking-change
+  minor:
+    labels:
+      - semver: minor
+      - type: feature
+  patch:
+    labels:
+      - semver: patch
+      - type: bug
+  default: patch
+
+template: |
+  ## Changes
+
+  $CHANGES

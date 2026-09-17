@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Package manager
+.pnpm-store/
+
+# Build output
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Runtime state
+*.pid
+*.pid.lock
+.tmp/
+tmp/
+
+# Editors / IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Test / tooling caches
+.nyc_output/
+.cache/
+.eslintcache
+
+# Local databases / dumps
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# Generated secrets / certificates
+*.pem
+*.key
+*.p12
+*.pfx

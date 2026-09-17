@@ -1,0 +1,28 @@
+{
+  "name": "advanced-modmail",
+  "version": "0.0.0",
+  "description": "Advanced open-source Modmail bot for Discord with secure, scalable and highly configurable support workflows.",
+  "license": "Apache-2.0",
+  "private": false,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.4.2",
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "modmail",
+    "moderation",
+    "support",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XSaitoKungX/advanced-modmail.git"
+  },
+  "bugs": {
+    "url": "https://github.com/XSaitoKungX/advanced-modmail/issues"
+  },
+  "homepage": "https://github.com/XSaitoKungX/advanced-modmail#readme"
+}
