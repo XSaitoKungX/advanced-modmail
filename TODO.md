@@ -23,7 +23,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add structured logger abstraction with redaction.
 - [x] Add CI for format, lint, typecheck, tests, and build.
 - [ ] Add dependency review/security checks where available.
-- [ ] Establish source directory boundaries matching `ARCHITECTURE.md`.
+- [x] Establish source directory boundaries matching `ARCHITECTURE.md`.
 - [ ] Establish configuration schema/versioning infrastructure.
 - [ ] Establish locale catalog and deterministic fallback abstractions.
 - [ ] Establish centralized Discord rendering/formatting abstractions.
