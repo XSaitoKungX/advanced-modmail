@@ -2,7 +2,7 @@
 
 This roadmap is intentionally ordered. New implementation work should normally follow the earliest unfinished phase unless an issue explicitly justifies otherwise.
 
-## Phase 0 — Repository foundation
+## Phase 0 - Repository foundation
 
 - [x] Initialize repository.
 - [x] Configure issues, pull requests, labels, squash merges, and branch cleanup.
@@ -13,7 +13,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Enable GitHub branch protection/rulesets when the repository plan or visibility supports them.
 - [ ] Enable full secret scanning/push protection when available for the repository.
 
-## Phase 1 — Toolchain and application skeleton
+## Phase 1 - Toolchain and application skeleton
 
 - [x] Create strict TypeScript project scaffold.
 - [x] Add pnpm lockfile.
@@ -23,12 +23,12 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add structured logger abstraction with redaction.
 - [x] Add CI for format, lint, typecheck, tests, and build.
 - [ ] Add dependency review/security checks where available.
-- [x] Establish source directory boundaries matching `ARCHITECTURE.md`.
+- [x] Establish the Discord-native `src/` module structure and repository-root entry point (supersedes the preliminary five-layer skeleton from PR #8).
 - [ ] Establish configuration schema/versioning infrastructure.
 - [ ] Establish locale catalog and deterministic fallback abstractions.
 - [ ] Establish centralized Discord rendering/formatting abstractions.
 
-## Phase 2 — Persistence foundation
+## Phase 2 - Persistence foundation
 
 - [ ] Select PostgreSQL query/ORM/migration tooling through a dedicated issue.
 - [ ] Define initial schema and migration policy.
@@ -38,22 +38,22 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Document backup/restore expectations.
 - [ ] Add versioned guild-configuration persistence.
 
-## Phase 3 — Discord runtime foundation
+## Phase 3 - Discord runtime foundation
 
-- [ ] Initialize discord.js client through an infrastructure adapter.
+- [ ] Initialize discord.js client lifecycle under `src/discord/client/`.
 - [ ] Document required intents and permissions.
 - [ ] Implement graceful startup/shutdown.
 - [ ] Implement interaction/event routing.
 - [ ] Add application health/readiness state.
 - [ ] Add safe command registration workflow.
-- [ ] Implement Components V2 presentation layer.
+- [ ] Implement centralized Components V2 rendering under `src/components/` and `src/discord/rendering/`.
 - [ ] Make `Container` the default root for structured bot messages where supported.
 - [ ] Add legacy rendering fallback only for unsupported/compatibility surfaces.
 - [ ] Implement explicit safe `allowed_mentions` policy.
 - [ ] Implement Discord Markdown/message-format parsing and normalization.
 - [ ] Add tests for user, role, channel, command, emoji, timestamp, and supported guild-navigation markup.
 
-## Phase 4 — Modmail domain MVP
+## Phase 4 - Modmail domain MVP
 
 - [ ] Define thread state machine.
 - [ ] Implement create/open-thread use case.
@@ -65,7 +65,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Implement authorization and staff permission policy.
 - [ ] Add idempotency and failure-handling tests.
 
-## Phase 5 — Routing and transport modes
+## Phase 5 - Routing and transport modes
 
 - [ ] Define normalized transport capabilities/interfaces.
 - [ ] Support direct-message entry points.
@@ -81,7 +81,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add permission/capability validation for each transport mode.
 - [ ] Add routing tests covering tenant isolation and failure recovery.
 
-## Phase 6 — Guild configuration
+## Phase 6 - Guild configuration
 
 - [ ] Define validated guild configuration model.
 - [ ] Add setup/configuration commands.
@@ -98,7 +98,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Audit privileged configuration changes.
 - [ ] Ensure normal customization does not require source-code changes.
 
-## Phase 7 — Internationalization
+## Phase 7 - Internationalization
 
 - [ ] Implement translation catalog abstraction.
 - [ ] Add `de-DE` baseline translations.
@@ -110,7 +110,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add missing-key and fallback tests.
 - [ ] Document how contributors add new locales.
 
-## Phase 8 — Transcripts and privacy
+## Phase 8 - Transcripts and privacy
 
 - [ ] Define transcript data model and rendering format.
 - [ ] Preserve relevant Markdown/message-formatting semantics in transcripts safely.
@@ -120,7 +120,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add privacy/redaction tests.
 - [ ] Document operator responsibilities for stored content.
 
-## Phase 9 — Moderation and staff tooling
+## Phase 9 - Moderation and staff tooling
 
 - [ ] Internal staff notes that cannot leak into user replies.
 - [ ] Thread assignment/ownership.
@@ -130,7 +130,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Search/filtering primitives.
 - [ ] Use Components V2 consistently for staff-facing workflow UI.
 
-## Phase 10 — Reliability and scale
+## Phase 10 - Reliability and scale
 
 - [ ] Measure rate-limit and retry behavior.
 - [ ] Introduce persistent jobs/queue only when justified.
@@ -139,18 +139,18 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Add operational metrics and alerting guidance.
 - [ ] Add disaster-recovery documentation.
 
-## Phase 11 — Dashboard/API
+## Phase 11 - Dashboard/API
 
 - [ ] Define dashboard requirements and threat model.
 - [ ] Select web stack through an ADR/issue.
 - [ ] Implement Discord OAuth2 safely.
 - [ ] Enforce server-side guild/permission checks.
-- [ ] Reuse application/domain services rather than duplicate logic.
+- [ ] Reuse feature modules and services rather than duplicating business logic.
 - [ ] Expose configuration capabilities without bypassing validation/security invariants.
 - [ ] Add configuration, thread, transcript, and audit views incrementally.
 - [ ] Make dashboard localization consistent with bot locale architecture where practical.
 
-## Phase 12 — UX polish and compatibility
+## Phase 12 - UX polish and compatibility
 
 - [ ] Validate accessible Components V2 interaction design.
 - [ ] Verify consistent Container-based UI patterns.
@@ -161,7 +161,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Validate safe mention behavior across configurable/user-controlled content.
 - [ ] Perform configuration-coverage review for hard-coded behavior that should be configurable.
 
-## Phase 13 — Deployment and release readiness
+## Phase 13 - Deployment and release readiness
 
 - [ ] Create Docker image and documented container deployment.
 - [ ] Document generic Node.js/Pelican/Pterodactyl-style deployment.
@@ -171,7 +171,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [ ] Automate release notes and versioning.
 - [ ] Produce first pre-release.
 
-## Phase 14 — Public open-source launch
+## Phase 14 - Public open-source launch
 
 - [ ] Final documentation review.
 - [ ] Enable public-repository security features.

@@ -2,7 +2,7 @@
 
 ## Product direction
 
-Advanced Modmail should feel reliable, calm, fast, modern, and predictable for both users requesting help and staff handling requests.
+Relaya should feel reliable, calm, fast, modern, and predictable for both users requesting help and staff handling requests.
 
 The project prioritizes operational clarity, Discord-native interaction design, and deep configurability over feature count.
 
@@ -61,7 +61,7 @@ Discord UX should:
 Internationalization is a product requirement from the first usable version.
 
 - German (`de-DE`) and English (`en-US`) are the initial baseline locales.
-- User-facing copy must live outside domain/business logic.
+- User-facing copy must live outside feature/business logic.
 - New locales must be addable without rewriting features.
 - Locale resolution must have deterministic fallback behavior.
 - Guild configuration may choose a default locale.
@@ -72,7 +72,7 @@ Internationalization is a product requirement from the first usable version.
 
 Messages should preserve supported Discord Markdown and message-formatting semantics where safe and technically possible.
 
-The rendering/relay layer must understand official Discord markup classes including:
+The formatting/relay pipeline under `src/discord/formatting/` must understand official Discord markup classes including:
 
 - user mentions: `<@USER_ID>`,
 - role mentions: `<@&ROLE_ID>`,

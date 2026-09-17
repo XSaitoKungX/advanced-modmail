@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for considering a contribution to Advanced Modmail.
+Thanks for considering a contribution to Relaya.
 
 The project is intentionally process-driven because modmail software handles permissions, private conversations, and moderation workflows.
 
@@ -40,6 +40,8 @@ fix(auth): reject expired OAuth state
 ```
 
 Commits inside a branch may evolve during development because pull requests are squash merged. The pull request title should therefore be suitable as the final squash commit title.
+
+Commits must carry a verified signature (branch protection requirement). Configure GPG or SSH commit signing before pushing; an SSH signing key can be registered under GitHub Settings → SSH and GPG keys with key type "Signing Key".
 
 ## Pull requests
 

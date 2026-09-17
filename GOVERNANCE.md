@@ -2,7 +2,7 @@
 
 ## Current model
 
-Advanced Modmail currently uses a maintainer-led governance model.
+Relaya currently uses a maintainer-led governance model.
 
 Primary maintainer:
 

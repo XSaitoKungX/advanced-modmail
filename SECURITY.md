@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Advanced Modmail is currently pre-release software. Until the first stable release, security fixes are applied to the active development line only.
+Relaya is currently pre-release software. Until the first stable release, security fixes are applied to the active development line only.
 
 A formal supported-version table will be introduced when stable releases exist.
 
