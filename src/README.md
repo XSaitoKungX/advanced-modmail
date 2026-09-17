@@ -52,9 +52,8 @@ src/
   types/            shared types that cannot live next to their feature
   constants/        true implementation constants - never operator config
 
-  web/              (planned) optional dashboard/API, same package, no
-                    separate package.json
-
+web/                (planned) optional dashboard/API at repository root,
+                    same package, no separate package.json
 tests/              test suite (Vitest)
 dist/               build output (generated)
 ```

@@ -25,8 +25,8 @@ export default defineConfig(
   {
     // Environment variables are deployment configuration: they must be read
     // and validated in one place instead of scattered through feature code.
-    files: ["index.ts", "src/**/*.ts"],
-    ignores: ["src/config/**"],
+    files: ["**/*.{ts,tsx,mts,cts}"],
+    ignores: ["src/config/**", "tests/**", "*.config.ts"],
     rules: {
       "no-restricted-syntax": [
         "error",
