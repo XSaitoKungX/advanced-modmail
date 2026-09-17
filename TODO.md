@@ -15,13 +15,13 @@ This roadmap is intentionally ordered. New implementation work should normally f
 
 ## Phase 1 — Toolchain and application skeleton
 
-- [ ] Create strict TypeScript project scaffold.
-- [ ] Add pnpm lockfile.
-- [ ] Configure formatter and linter.
-- [ ] Configure unit/integration test framework.
+- [x] Create strict TypeScript project scaffold.
+- [x] Add pnpm lockfile.
+- [x] Configure formatter and linter.
+- [x] Configure unit/integration test framework.
 - [ ] Add environment schema validation.
 - [ ] Add structured logger abstraction with redaction.
-- [ ] Add CI for format, lint, typecheck, tests, and build.
+- [x] Add CI for format, lint, typecheck, tests, and build.
 - [ ] Add dependency review/security checks where available.
 - [ ] Establish source directory boundaries matching `ARCHITECTURE.md`.
 - [ ] Establish configuration schema/versioning infrastructure.
