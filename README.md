@@ -1,6 +1,6 @@
 # Advanced Modmail
 
-Advanced Modmail is an open-source Discord modmail platform focused on reliable private support workflows, strong moderation tooling, extensibility, security, and a maintainable self-hosted deployment model.
+Advanced Modmail is an open-source Discord modmail platform focused on reliable private support workflows, strong moderation tooling, extensibility, security, deep configurability, and a maintainable self-hosted deployment model.
 
 > Status: pre-alpha / architecture phase. The project foundation is being established before implementation begins.
 
@@ -9,10 +9,79 @@ Advanced Modmail is an open-source Discord modmail platform focused on reliable 
 - Reliable user-to-staff modmail conversations through Discord.
 - Multi-guild capable architecture with strict tenant isolation.
 - Secure transcript handling and auditable moderation actions.
-- Highly configurable workflows without hard-coded guild assumptions.
+- Configuration-first behavior with no hard-coded guild assumptions.
+- Modern Discord-native UX built around Components V2.
+- First-class localization and multi-language support.
+- Flexible routing across DMs, guild messages, channels, threads, and supported Discord surfaces.
+- Native Discord Markdown and message-formatting support.
 - Clear extension points for integrations and future modules.
 - Production-ready observability, testing, migrations, and deployment guidance.
 - A contributor-friendly open-source project with predictable governance.
+
+## Core product requirements
+
+### Components V2 by default
+
+Bot-generated interactive and informational messages should use Discord Components V2 by default. `Container` is the preferred root layout component for structured messages, with `Text Display`, `Section`, `Separator`, `Media Gallery`, `File`, `Action Row`, and other supported components composed as needed.
+
+Legacy embeds or legacy message-component layouts are compatibility fallbacks, not the default design language for new features.
+
+### Configuration-first
+
+The project targets effectively complete configuration of operator-facing behavior. The "99.99% configurable" goal means that deployers should not need to edit source code for normal customization.
+
+Configurable behavior is expected to include, where relevant:
+
+- channels, categories, threads, forums, roles, permissions, and destinations,
+- routing modes and modmail entry points,
+- user-facing and staff-facing messages,
+- Components V2 layouts and presentation options,
+- colors/accent colors, labels, buttons, limits, cooldowns, naming, and workflow behavior,
+- transcript, retention, notification, logging, moderation, and privacy settings,
+- feature toggles and per-guild defaults,
+- locale/language behavior.
+
+Security invariants, protocol requirements, schema constraints, and implementation constants that must not be operator-configurable are explicit exceptions.
+
+### Multiple languages
+
+Internationalization is a first-class requirement, not a later retrofit. The initial product baseline targets German (`de-DE`) and English (`en-US`) with a locale system that can be extended without changing domain logic.
+
+Locale resolution should support guild defaults, user/interaction locale where applicable, deterministic fallback behavior, and localized configurable templates.
+
+### Flexible Discord routing
+
+The transport architecture must support more than a single DM-to-channel flow. Planned routing capabilities include:
+
+- direct messages,
+- guild messages,
+- text channels,
+- private/public threads,
+- forum/thread-style destinations where supported,
+- interaction-triggered entry points,
+- future Discord surfaces through adapters without rewriting domain logic.
+
+Exact supported combinations are introduced through scoped implementation issues and must respect Discord permissions and API limitations.
+
+### Markdown and Discord formatting
+
+Relayed and generated content must preserve supported Discord Markdown where safe and appropriate. The formatting layer must understand current Discord message-formatting forms including user, role, channel, command, emoji, timestamp, and guild-navigation markup.
+
+Examples include:
+
+```text
+<@USER_ID>
+<@&ROLE_ID>
+<#CHANNEL_ID>
+</COMMAND:COMMAND_ID>
+<:EMOJI_NAME:EMOJI_ID>
+<a:EMOJI_NAME:EMOJI_ID>
+<t:TIMESTAMP>
+<t:TIMESTAMP:STYLE>
+<id:TYPE>
+```
+
+Deprecated input forms may be parsed for compatibility but must not be emitted as the preferred format. Ping behavior must always be controlled explicitly through Discord `allowed_mentions`; rendering markup must never imply permission to notify users or roles.
 
 ## Planned technical baseline
 
