@@ -94,6 +94,38 @@ Deprecated input forms may be parsed for compatibility but must not be emitted a
 
 Exact application dependencies are introduced only through implementation issues and pull requests.
 
+## Development
+
+### Prerequisites
+
+- Node.js 24 LTS (see `.nvmrc`).
+- pnpm 12. The `packageManager` field pins the exact version; `corepack enable` makes Corepack supply it automatically.
+
+### Setup
+
+```bash
+corepack enable
+pnpm install
+```
+
+### Common commands
+
+| Command              | Description                                      |
+| -------------------- | ------------------------------------------------ |
+| `pnpm build`         | Compile `src/` to `dist/` with `tsc`.            |
+| `pnpm check`         | Run format check, lint, typecheck, tests, build. |
+| `pnpm clean`         | Remove build output.                             |
+| `pnpm format`        | Format the repository with Prettier.             |
+| `pnpm format:check`  | Verify formatting without writing.               |
+| `pnpm lint`          | Run ESLint.                                      |
+| `pnpm lint:fix`      | Run ESLint and apply auto-fixes.                 |
+| `pnpm test`          | Run unit tests once with Vitest.                 |
+| `pnpm test:watch`    | Run Vitest in watch mode.                        |
+| `pnpm test:coverage` | Run tests with V8 coverage reporting.            |
+| `pnpm typecheck`     | Type-check without emitting.                     |
+
+TypeScript 7 (`tsc`) drives builds and type-checking. Because TypeScript 7 is a native compiler without the classic JavaScript API, `typescript-eslint` runs against the TypeScript 6 compatibility API (`@typescript/typescript6`) via the side-by-side install recommended upstream. This split can be removed once typescript-eslint supports the TypeScript 7 API.
+
 ## Repository workflow
 
 All meaningful changes follow this lifecycle:
