@@ -1,0 +1,66 @@
+name: Bug report
+description: Report reproducible incorrect behavior
+title: "[Bug]: "
+labels:
+  - "type: bug"
+  - "status: needs-triage"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem with Advanced Modmail.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the problem clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Explain how the problem can be reproduced.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include relevant runtime, operating system and deployment information.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or additional context
+      description: Remove tokens, credentials and other secrets before submitting.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched for existing issues before opening this report.
+          required: true
+        - label: I removed secrets and sensitive information from logs.
+          required: true
