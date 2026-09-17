@@ -2,16 +2,16 @@
 
 ## Purpose
 
-Advanced Modmail is designed as a modular Discord support platform rather than a collection of command handlers. The architecture must preserve clear boundaries between Discord transport, business rules, persistence, rendering, configuration, integrations, and operational concerns.
+Relaya is designed as a modular Discord support platform rather than a collection of command handlers. The architecture must preserve clear boundaries between Discord transport, business rules, persistence, rendering, configuration, integrations, and operational concerns.
 
 ## Architectural goals
 
 - Multi-guild support without cross-guild data leakage.
-- Horizontal scalability without redesigning domain logic.
+- Horizontal scalability without redesigning business logic.
 - Reliable delivery and idempotent processing of external events.
 - Auditable moderation and configuration changes.
 - Replaceable infrastructure adapters.
-- Testable domain behavior without requiring a live Discord connection.
+- Testable business behavior without requiring a live Discord connection.
 - Safe self-hosting with explicit migrations and configuration validation.
 - Configuration-first operation without source edits for normal customization.
 - First-class internationalization.
@@ -27,78 +27,53 @@ Advanced Modmail is designed as a modular Discord support platform rather than a
 
 Redis is not a mandatory dependency at project start. It should be introduced only when queues, distributed locks, rate-limit coordination, caching, or multi-process coordination require it.
 
-## Logical layers
+## Source layout
 
-### 1. Transport
+Relaya is a single application: one repository, one root `package.json`, one build. It is intentionally not a monorepo - no `apps/`, no `packages/`, no nested package manifests.
 
-Adapters that receive or send external data:
+The project uses a Discord-native modular structure rather than Clean Architecture folder names. The same separation-of-concerns principles apply, but they are expressed through module responsibilities and boundaries instead of physical layer directories. Directories are created when their first implementation lands; `src/README.md` is the canonical reference for the planned tree.
 
-- Discord direct messages,
-- Discord guild messages,
-- text channels,
-- private/public threads,
-- forum/thread-style destinations where supported,
-- Discord interactions,
-- REST/webhook endpoints where applicable,
-- future dashboard/API transport.
+### Entry point and bootstrap
 
-Transport code converts external payloads into validated application commands/events. It must not contain core modmail policy.
+- `index.ts` at the repository root is the single application entry point and stays minimal - startup/composition only - and compiles to `dist/index.js`.
+- `src/bootstrap.ts` owns startup wiring: validated configuration, persistence, the Discord client, optional web/API, and graceful shutdown.
 
-A transport adapter must expose normalized capabilities rather than leaking channel/thread-specific behavior into the domain. This allows supported routes such as DM-to-thread, DM-to-channel, guild-message-to-thread, and other configured combinations to reuse the same application use cases.
+### Module responsibilities
 
-### 2. Application
+- `src/commands/` - Discord command definitions (`slash/`, `message/`). Commands parse interaction context and delegate; they must not contain business logic.
+- `src/events/` - Discord event listeners grouped by event area (`client/`, `guild/`, `interaction/`, `message/`). Listeners delegate to handlers and services.
+- `src/handlers/` - dispatch/orchestration infrastructure: command, event, component, and error handlers.
+- `src/components/` - reusable Discord interaction/UI building blocks using Discord terminology: `buttons/`, `modals/`, `selects/`, `containers/`, `sections/`, `shared/`, and `views/` for composed screens.
+- `src/modmail/` - the modmail feature domain organized by concrete responsibility: `threads/`, `routing/`, `messages/`, `transcripts/`, `permissions/`, `moderation/`.
+- `src/discord/` - Discord-specific infrastructure: `client/` (client lifecycle), `rendering/` (central Components V2 factories), `formatting/` (Markdown/message-format pipeline), `mentions/` (safe `allowed_mentions` handling).
+- `src/config/` - all validated configuration (`env/`, `guild/`, `defaults/`). `process.env` is read only inside `config/` (lint-enforced); feature code consumes validated configuration objects.
+- `src/database/` - persistence only: `migrations/`, `repositories/`, `models/`. No other module talks to the database driver.
+- `src/locales/` - localization resources (`de-DE/`, `en-US/` baseline).
+- `src/services/` - cross-feature services, only when no feature module is a better home.
+- `src/helpers/` - Discord/project-aware helpers.
+- `src/utils/` - genuinely generic utilities only.
+- `src/types/` - shared types that cannot live next to their feature.
+- `src/constants/` - true implementation constants only; operator-configurable values never live here.
+- `web/` - (planned) optional dashboard/API inside the same package.
+- `tests/` - Vitest test suite.
 
-Coordinates use cases such as:
+### Module boundaries
 
-- opening a modmail thread,
-- resolving configured routing,
-- routing a user message,
-- sending a staff reply,
-- closing/reopening a thread,
-- generating a transcript,
-- applying guild configuration,
-- rendering localized Discord output,
-- recording moderation actions.
+The discipline normally associated with layered architecture still applies, without the folder ceremony:
 
-Application services orchestrate domain rules and infrastructure ports.
-
-### 3. Domain
-
-Contains framework-independent rules and models. Planned concepts include:
-
-- Guild/Tenant
-- ModmailThread
-- Participant
-- MessageRelay
-- ThreadState
-- StaffAction
-- Transcript
-- GuildConfiguration
-- PermissionPolicy
-- RoutingPolicy
-- LocalePolicy
-
-Domain objects must not depend on discord.js, database clients, HTTP frameworks, environment variables, or Discord-specific component builder classes.
-
-### 4. Infrastructure
-
-Implements external concerns:
-
-- PostgreSQL repositories,
-- Discord adapters,
-- Components V2 rendering,
-- localization catalogs/loaders,
-- object/file storage for transcript assets if required,
-- queue/cache implementations,
-- logging and telemetry exporters.
-
-Infrastructure implementations must satisfy interfaces owned by application/domain layers rather than the reverse.
+- Commands and events stay thin: they parse context and delegate to `handlers/`, `modmail/`, or `services/`.
+- Business rules live in feature modules (`src/modmail/`) and services - not in event/command dispatch code, not in Discord payload shapes, and not in persistence code. Business modules must not depend on discord.js transport details, database drivers, HTTP frameworks, environment variables, or Discord component builders.
+- Persistence is isolated in `src/database/`; feature modules consume repositories, never the driver.
+- Rendering and text formatting are centralized in `src/components/` + `src/discord/rendering/` and `src/discord/formatting/`; feature code does not assemble one-off layouts.
+- Environment access is centralized in `src/config/` (lint-enforced).
+- Modules avoid circular dependencies and cross-feature coupling; shared contracts live with their owning module or in `src/types/`.
+- Where loose coupling matters - for example between the Discord client and feature workflows - a module exposes a narrow interface and receives its dependencies at bootstrap instead of importing deep internals. This is practical dependency injection, not ceremony: do not force every concept into an abstract interface.
 
 ## Discord rendering architecture
 
 Bot-generated structured Discord UI uses Components V2 by default where supported.
 
-`Container` is the preferred root layout for structured responses. Rendering must be centralized behind a presentation layer so features do not construct unrelated one-off layouts throughout business code.
+`Container` is the preferred root layout for structured responses. Rendering must be centralized in `src/components/` and `src/discord/rendering/` so features do not construct unrelated one-off layouts throughout business code.
 
 The renderer should support official Components V2 elements as applicable, including `Text Display`, `Section`, `Separator`, `Media Gallery`, `File`, and action components.
 
@@ -124,7 +99,7 @@ Outgoing notification behavior must be controlled explicitly with `allowed_menti
 
 ## Internationalization architecture
 
-User-facing strings must be obtained from locale resources rather than embedded in domain/application logic.
+User-facing strings must be obtained from locale resources under `src/locales/` rather than embedded in feature or business logic.
 
 Initial baseline locales:
 
@@ -176,7 +151,7 @@ A typical lifecycle is expected to be:
 
 1. User initiates contact through an approved/configured Discord entry point.
 2. System resolves guild routing, transport mode, locale, and configuration.
-3. Application checks limits, block state, existing open thread, and permissions.
+3. The application checks limits, block state, existing open thread, and permissions.
 4. Thread is created transactionally.
 5. A configured staff-side Discord representation is provisioned.
 6. User and staff messages are relayed and persisted according to configured privacy policy.
@@ -239,7 +214,13 @@ Logs must respect privacy and redaction requirements from `SECURITY.md`.
 
 ## Dashboard/API
 
-A dashboard is an intended extension, but it must use the same application/domain services rather than duplicating business rules. Authentication and guild authorization must be enforced server-side.
+A web dashboard is an intended extension, with clear constraints:
+
+- it lives in the same repository and the same root `package.json` as a `web/` module - never a separate package, and never a reason to introduce monorepo tooling;
+- it reuses the same feature modules and services rather than duplicating business rules;
+- authentication and guild authorization are enforced server-side.
+
+The Discord bot itself does not need an HTTP listening port: it talks to Discord through the Gateway/WebSocket. If the dashboard is enabled, the web/API server listens on one configurable HTTP port (e.g. `PORT`) and may run in the same Node.js process as the bot. Running bot and web responsibilities in separate processes is a possible later scaling step and must not require splitting the repository into packages.
 
 No dashboard framework is selected in this architecture phase.
 
@@ -252,10 +233,10 @@ Potential scaling stages:
 1. Single process + PostgreSQL.
 2. Multiple bot processes/shards with shared PostgreSQL.
 3. Redis/queue coordination when justified.
-4. Separately deployed web/API workers if operational scale requires it.
+4. Web/API responsibilities in a separate process (same repository and package) if operational scale requires it.
 
 Avoid distributed-system complexity before it solves a measured problem.
 
 ## Architectural decision records
 
-Material architecture changes should eventually be documented under `docs/adr/` using numbered ADRs. The directory should be introduced with the first decision that needs a durable trade-off record.
+Material architecture changes are documented under `docs/adr/` using numbered ADRs, starting with `0001-discord-native-project-structure.md`.

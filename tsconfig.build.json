@@ -4,8 +4,8 @@
     "noEmit": false,
     "incremental": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "."
   },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
+  "include": ["index.ts", "src"],
+  "exclude": ["**/*.test.ts"]
 }

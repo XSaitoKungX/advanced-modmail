@@ -9,7 +9,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting a problem with Advanced Modmail.
+        Thanks for reporting a problem with Relaya.
 
   - type: textarea
     id: description

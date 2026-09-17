@@ -1,6 +1,12 @@
-# Advanced Modmail
+<p align="center">
+  <img src="web/public/relaya.webp" alt="Relaya mascot" width="160">
+</p>
 
-Advanced Modmail is an open-source Discord modmail platform focused on reliable private support workflows, strong moderation tooling, extensibility, security, deep configurability, and a maintainable self-hosted deployment model.
+<h1 align="center">Relaya</h1>
+
+<p align="center"><strong>Advanced, configurable and open-source Modmail for Discord.</strong></p>
+
+Relaya is an open-source Discord modmail platform focused on reliable private support workflows, strong moderation tooling, extensibility, security, deep configurability, and a maintainable self-hosted deployment model.
 
 > Status: pre-alpha / architecture phase. The project foundation is being established before implementation begins.
 
@@ -45,7 +51,7 @@ Security invariants, protocol requirements, schema constraints, and implementati
 
 ### Multiple languages
 
-Internationalization is a first-class requirement, not a later retrofit. The initial product baseline targets German (`de-DE`) and English (`en-US`) with a locale system that can be extended without changing domain logic.
+Internationalization is a first-class requirement, not a later retrofit. The initial product baseline targets German (`de-DE`) and English (`en-US`) with a locale system that can be extended without changing business logic.
 
 Locale resolution should support guild defaults, user/interaction locale where applicable, deterministic fallback behavior, and localized configurable templates.
 
@@ -59,13 +65,13 @@ The transport architecture must support more than a single DM-to-channel flow. P
 - private/public threads,
 - forum/thread-style destinations where supported,
 - interaction-triggered entry points,
-- future Discord surfaces through adapters without rewriting domain logic.
+- future Discord surfaces through adapters without rewriting business logic.
 
 Exact supported combinations are introduced through scoped implementation issues and must respect Discord permissions and API limitations.
 
 ### Markdown and Discord formatting
 
-Relayed and generated content must preserve supported Discord Markdown where safe and appropriate. The formatting layer must understand current Discord message-formatting forms including user, role, channel, command, emoji, timestamp, and guild-navigation markup.
+Relayed and generated content must preserve supported Discord Markdown where safe and appropriate. The formatting pipeline under `src/discord/formatting/` must understand current Discord message-formatting forms including user, role, channel, command, emoji, timestamp, and guild-navigation markup.
 
 Examples include:
 
@@ -126,6 +132,10 @@ pnpm install
 
 TypeScript 7 (`tsc`) drives builds and type-checking. Because TypeScript 7 is a native compiler without the classic JavaScript API, `typescript-eslint` runs against the TypeScript 6 compatibility API (`@typescript/typescript6`) via the side-by-side install recommended upstream. This split can be removed once typescript-eslint supports the TypeScript 7 API.
 
+### Project structure
+
+The application entry point is `index.ts` at the repository root (compiled to `dist/index.js`); startup wiring lives in `src/bootstrap.ts`. The Discord-native module layout under `src/` is documented in `src/README.md` and `ARCHITECTURE.md`.
+
 ## Repository workflow
 
 All meaningful changes follow this lifecycle:
@@ -142,15 +152,15 @@ Direct development on `main` is not part of the project workflow.
 
 ## Documentation
 
-- `AGENTS.md` — rules for AI agents and automated contributors.
-- `ARCHITECTURE.md` — technical architecture and system boundaries.
-- `DESIGN.md` — product and engineering design principles.
-- `SECURITY.md` — vulnerability reporting and security expectations.
-- `CONTRIBUTING.md` — contributor workflow and standards.
-- `GOVERNANCE.md` — project decision-making and maintenance model.
-- `SUPPORT.md` — where to ask for help.
-- `TODO.md` — ordered implementation roadmap.
-- `CHANGELOG.md` — release history once releases begin.
+- `AGENTS.md` - rules for AI agents and automated contributors.
+- `ARCHITECTURE.md` - technical architecture and system boundaries.
+- `DESIGN.md` - product and engineering design principles.
+- `SECURITY.md` - vulnerability reporting and security expectations.
+- `CONTRIBUTING.md` - contributor workflow and standards.
+- `GOVERNANCE.md` - project decision-making and maintenance model.
+- `SUPPORT.md` - where to ask for help.
+- `TODO.md` - ordered implementation roadmap.
+- `CHANGELOG.md` - release history once releases begin.
 
 ## Current phase
 

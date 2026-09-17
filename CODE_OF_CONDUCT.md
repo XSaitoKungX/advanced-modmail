@@ -2,7 +2,7 @@
 
 ## Our standards
 
-Advanced Modmail is intended to be a professional and welcoming open-source project.
+Relaya is intended to be a professional and welcoming open-source project.
 
 Participants are expected to:
 

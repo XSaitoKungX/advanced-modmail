@@ -18,4 +18,4 @@ Do not use public issues for vulnerabilities. Follow `SECURITY.md`.
 
 ## Current availability
 
-Advanced Modmail is in pre-alpha development. There is currently no stable release and no guaranteed support SLA.
+Relaya is in pre-alpha development. There is currently no stable release and no guaranteed support SLA.

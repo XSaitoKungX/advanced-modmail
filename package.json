@@ -1,7 +1,7 @@
 {
   "name": "advanced-modmail",
   "version": "0.0.0",
-  "description": "Advanced open-source Modmail bot for Discord with secure, scalable and highly configurable support workflows.",
+  "description": "Advanced, configurable and open-source Modmail for Discord.",
   "license": "Apache-2.0",
   "private": false,
   "type": "module",
