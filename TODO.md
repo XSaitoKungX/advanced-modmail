@@ -22,7 +22,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [x] Add environment schema validation.
 - [x] Add structured logger abstraction with redaction.
 - [x] Add CI for format, lint, typecheck, tests, and build.
-- [ ] Add dependency review/security checks where available.
+- [x] Add dependency review/security checks where available.
 - [x] Establish the Discord-native `src/` module structure and repository-root entry point (supersedes the preliminary five-layer skeleton from PR #8).
 - [ ] Establish configuration schema/versioning infrastructure.
 - [ ] Establish locale catalog and deterministic fallback abstractions.
