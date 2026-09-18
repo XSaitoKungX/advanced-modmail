@@ -132,6 +132,8 @@ Configuration domains may include:
 
 Configuration must be schema-validated, versioned/migratable, tenant-scoped where appropriate, and safe by default.
 
+Guild configuration documents carry an explicit `version` field. `src/config/guild/` exposes `parseGuildConfig()`, which upgrades stored documents through a registered migration chain to `GUILD_CONFIG_VERSION` and then validates them against the current strict schema. Configs newer than the supported version, or older versions without a registered migration, fail closed with `ConfigValidationError`.
+
 Security invariants, API/protocol constraints, database invariants, and internal implementation constants are not required to be configurable.
 
 ## Multi-tenancy
