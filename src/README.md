@@ -46,6 +46,7 @@ src/
   locales/          localization resources
     de-DE/ en-US/
 
+  logger/           structured logging abstraction with secret redaction
   services/         cross-feature services (only when no feature module fits)
   helpers/          Discord/project-aware helpers
   utils/            genuinely generic utilities only

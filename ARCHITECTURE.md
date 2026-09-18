@@ -49,6 +49,7 @@ The project uses a Discord-native modular structure rather than Clean Architectu
 - `src/config/` - all validated configuration (`env/`, `guild/`, `defaults/`). `process.env` is read only inside `config/` (lint-enforced); feature code consumes validated configuration objects.
 - `src/database/` - persistence only: `migrations/`, `repositories/`, `models/`. No other module talks to the database driver.
 - `src/locales/` - localization resources (`de-DE/`, `en-US/` baseline).
+- `src/logger/` - structured logging abstraction (pino) with mandatory secret redaction; consumed via injected logger instances, never a global singleton.
 - `src/services/` - cross-feature services, only when no feature module is a better home.
 - `src/helpers/` - Discord/project-aware helpers.
 - `src/utils/` - genuinely generic utilities only.

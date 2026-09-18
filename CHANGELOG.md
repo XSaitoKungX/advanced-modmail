@@ -13,6 +13,7 @@ The format follows the principles of Keep a Changelog and the project intends to
 - Application architecture skeleton: `domain`, `application`, `infrastructure`, `transport`, and `presentation` layers under `src/` with lint-enforced dependency boundaries.
 - Environment variable schema validation under `src/config/env/` (zod): `loadEnv()` validates `process.env` and throws `EnvValidationError` listing invalid variables without echoing secret values.
 - `.env` file loading via `@dotenvx/dotenvx` inside `loadEnv()` when reading the real environment (injected sources bypass file loading).
+- Structured logger abstraction under `src/logger/` (pino): `createLogger()` factory with level filtering from `LogLevel`, JSON output, and mandatory redaction of token/secret/credential keys at up to three nesting levels.
 
 ### Changed
 
