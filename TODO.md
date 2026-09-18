@@ -19,7 +19,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [x] Add pnpm lockfile.
 - [x] Configure formatter and linter.
 - [x] Configure unit/integration test framework.
-- [ ] Add environment schema validation.
+- [x] Add environment schema validation.
 - [ ] Add structured logger abstraction with redaction.
 - [x] Add CI for format, lint, typecheck, tests, and build.
 - [ ] Add dependency review/security checks where available.
