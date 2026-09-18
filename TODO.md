@@ -20,7 +20,7 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [x] Configure formatter and linter.
 - [x] Configure unit/integration test framework.
 - [x] Add environment schema validation.
-- [ ] Add structured logger abstraction with redaction.
+- [x] Add structured logger abstraction with redaction.
 - [x] Add CI for format, lint, typecheck, tests, and build.
 - [ ] Add dependency review/security checks where available.
 - [x] Establish the Discord-native `src/` module structure and repository-root entry point (supersedes the preliminary five-layer skeleton from PR #8).
