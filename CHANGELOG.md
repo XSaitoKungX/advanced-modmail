@@ -12,6 +12,7 @@ The format follows the principles of Keep a Changelog and the project intends to
 - TypeScript application toolchain: strict TypeScript 7 build, ESLint flat config, Prettier, Vitest, pnpm lockfile, and CI workflow.
 - Application architecture skeleton: `domain`, `application`, `infrastructure`, `transport`, and `presentation` layers under `src/` with lint-enforced dependency boundaries.
 - Environment variable schema validation under `src/config/env/` (zod): `loadEnv()` validates `process.env` and throws `EnvValidationError` listing invalid variables without echoing secret values.
+- `.env` file loading via `@dotenvx/dotenvx` inside `loadEnv()` when reading the real environment (injected sources bypass file loading).
 
 ### Changed
 

@@ -1,3 +1,4 @@
+import { config as loadEnvFiles } from "@dotenvx/dotenvx";
 import { envSchema, type EnvConfig } from "./schema.js";
 
 export { envSchema } from "./schema.js";
@@ -26,8 +27,13 @@ export class EnvValidationError extends Error {
   }
 }
 
-export function loadEnv(source: NodeJS.ProcessEnv = process.env): EnvConfig {
-  const result = envSchema.safeParse(source);
+export function loadEnv(source?: NodeJS.ProcessEnv): EnvConfig {
+  const env = source ?? process.env;
+  if (source === undefined) {
+    // quiet: library output must not bypass the logger abstraction.
+    loadEnvFiles({ quiet: true });
+  }
+  const result = envSchema.safeParse(env);
   if (result.success) {
     return Object.freeze(result.data);
   }

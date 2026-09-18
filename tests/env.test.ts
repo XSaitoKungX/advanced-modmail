@@ -1,4 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { EnvValidationError, loadEnv } from "../src/config/env/index.js";
 
 const VALID_ENV = {
@@ -76,5 +79,46 @@ describe("loadEnv", () => {
   it("returns a frozen configuration object", () => {
     const config = loadEnv(VALID_ENV);
     expect(Object.isFrozen(config)).toBe(true);
+  });
+});
+
+describe("loadEnv real-environment branch", () => {
+  let dir: string;
+  let originalCwd: string;
+  let envSnapshot: NodeJS.ProcessEnv;
+
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), "relaya-env-"));
+    originalCwd = process.cwd();
+    envSnapshot = { ...process.env };
+    process.chdir(dir);
+  });
+
+  afterEach(() => {
+    process.chdir(originalCwd);
+    process.env = envSnapshot;
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it("loads .env through dotenvx when no source is injected", () => {
+    writeFileSync(
+      join(dir, ".env"),
+      "DISCORD_TOKEN=from-dotenv-file\nDISCORD_CLIENT_ID=123456789012345678\n",
+    );
+    delete process.env.DISCORD_TOKEN;
+    delete process.env.DISCORD_CLIENT_ID;
+    const config = loadEnv();
+    expect(config.DISCORD_TOKEN).toBe("from-dotenv-file");
+    expect(config.DISCORD_CLIENT_ID).toBe("123456789012345678");
+  });
+
+  it("injected sources bypass .env file loading", () => {
+    writeFileSync(
+      join(dir, ".env"),
+      "DISCORD_TOKEN=must-not-be-used\nDISCORD_CLIENT_ID=000000000000000000\n",
+    );
+    const config = loadEnv(VALID_ENV);
+    expect(config.DISCORD_TOKEN).toBe("test-token");
+    expect(config.DISCORD_CLIENT_ID).toBe("123456789012345678");
   });
 });
