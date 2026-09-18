@@ -24,9 +24,9 @@ This roadmap is intentionally ordered. New implementation work should normally f
 - [x] Add CI for format, lint, typecheck, tests, and build.
 - [x] Add dependency review/security checks where available.
 - [x] Establish the Discord-native `src/` module structure and repository-root entry point (supersedes the preliminary five-layer skeleton from PR #8).
-- [ ] Establish configuration schema/versioning infrastructure.
-- [ ] Establish locale catalog and deterministic fallback abstractions.
-- [ ] Establish centralized Discord rendering/formatting abstractions.
+- [x] Establish configuration schema/versioning infrastructure.
+- [x] Establish locale catalog and deterministic fallback abstractions.
+- [x] Establish centralized Discord rendering/formatting abstractions.
 
 ## Phase 2 - Persistence foundation
 

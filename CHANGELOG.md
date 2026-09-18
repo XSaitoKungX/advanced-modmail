@@ -15,6 +15,9 @@ The format follows the principles of Keep a Changelog and the project intends to
 - `.env` file loading via `@dotenvx/dotenvx` inside `loadEnv()` when reading the real environment (injected sources bypass file loading).
 - Structured logger abstraction under `src/logger/` (pino): `createLogger()` factory with level filtering from `LogLevel`, JSON output, and mandatory recursive case-insensitive redaction of credential keys.
 - CI audit job running `pnpm audit --prod --audit-level=high` against production dependencies.
+- Versioned guild-configuration infrastructure under `src/config/guild/`: strict zod schema v1 (Discord snowflake validation, locale enum, feature defaults) and `parseGuildConfig()` with an explicit migration chain and `ConfigValidationError` for unsupported or unmigratable versions.
+- Locale catalogs and deterministic fallback under `src/locales/`: typed `en-US` reference catalog, partial `de-DE` catalog, `resolveLocale()` priority resolution, and `translate()` with per-key en-US fallback and `{param}` interpolation.
+- Centralized Discord contracts under `src/discord/`: opt-in `MentionsPolicy` (`resolveMentions`, no representable `@everyone`/`@here`), `RenderedMessage`/`ViewRenderer` rendering contracts, and `FormattingPipeline` token contracts for the Discord message-format pipeline.
 
 ### Changed
 
