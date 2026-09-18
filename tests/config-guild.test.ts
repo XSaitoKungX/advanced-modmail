@@ -52,6 +52,12 @@ describe("parseGuildConfig", () => {
     );
   });
 
+  it("rejects unknown keys inside nested objects", () => {
+    expect(() =>
+      parseGuildConfig({ version: 1, features: { transcipts: false } }),
+    ).toThrow(ConfigValidationError);
+  });
+
   it("rejects malformed snowflake IDs", () => {
     expect(() =>
       parseGuildConfig({ version: 1, staffRoleIds: ["not-a-snowflake"] }),
@@ -67,8 +73,13 @@ describe("parseGuildConfig", () => {
     );
   });
 
-  it("returns a frozen configuration object", () => {
+  it("returns a deeply frozen configuration object", () => {
     const config = parseGuildConfig(VALID_CONFIG);
     expect(Object.isFrozen(config)).toBe(true);
+    expect(Object.isFrozen(config.features)).toBe(true);
+    expect(Object.isFrozen(config.staffRoleIds)).toBe(true);
+    expect(() => {
+      (config.features as { transcripts: boolean }).transcripts = false;
+    }).toThrow(TypeError);
   });
 });

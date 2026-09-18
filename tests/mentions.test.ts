@@ -38,4 +38,12 @@ describe("mentions policy", () => {
     expect(Object.isFrozen(policy)).toBe(true);
     expect(Object.isFrozen(policy.users)).toBe(true);
   });
+
+  it("does not freeze arrays owned by the caller", () => {
+    const users = ["1"];
+    const policy = resolveMentions({ users });
+    expect(Object.isFrozen(users)).toBe(false);
+    expect(policy.users).not.toBe(users);
+    expect(() => users.push("2")).not.toThrow();
+  });
 });

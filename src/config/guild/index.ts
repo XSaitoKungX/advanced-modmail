@@ -5,7 +5,25 @@ export type { GuildConfigV1 } from "./schema-v1.js";
 
 export const GUILD_CONFIG_VERSION = 1;
 
-export type GuildConfig = GuildConfigV1;
+type DeepReadonly<T> = T extends readonly (infer U)[]
+  ? readonly DeepReadonly<U>[]
+  : T extends object
+    ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
+    : T;
+
+export type GuildConfig = DeepReadonly<GuildConfigV1>;
+
+// Validated configuration must not drift after parsing: nested objects and
+// arrays are frozen recursively so mutation cannot bypass the schema.
+function deepFreeze<T>(value: T): DeepReadonly<T> {
+  if (typeof value === "object" && value !== null) {
+    for (const key of Object.keys(value)) {
+      deepFreeze((value as Record<string, unknown>)[key]);
+    }
+    Object.freeze(value);
+  }
+  return value as DeepReadonly<T>;
+}
 
 export interface ConfigIssue {
   path: string;
@@ -73,7 +91,7 @@ export function parseGuildConfig(raw: unknown): GuildConfig {
 
   const result = guildConfigV1Schema.safeParse(candidate);
   if (result.success) {
-    return Object.freeze(result.data);
+    return deepFreeze(result.data);
   }
   throw new ConfigValidationError(
     result.error.issues.map((issue) => ({

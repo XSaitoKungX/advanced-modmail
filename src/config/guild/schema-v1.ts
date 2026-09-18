@@ -15,6 +15,7 @@ export const guildConfigV1Schema = z
       .object({
         transcripts: z.boolean().default(true),
       })
+      .strict()
       .prefault({}),
   })
   .strict();

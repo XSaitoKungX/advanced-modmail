@@ -23,8 +23,9 @@ export interface MentionsAllow {
 // resolve to notifications.
 export function resolveMentions(allow: MentionsAllow = {}): MentionsPolicy {
   return Object.freeze({
-    users: Object.freeze(allow.users ?? []),
-    roles: Object.freeze(allow.roles ?? []),
+    // Copy before freezing: the caller keeps ownership of its arrays.
+    users: Object.freeze([...(allow.users ?? [])]),
+    roles: Object.freeze([...(allow.roles ?? [])]),
     repliedUser: allow.repliedUser ?? false,
   });
 }
