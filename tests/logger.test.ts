@@ -76,6 +76,37 @@ describe("createLogger", () => {
     expect(raw()).not.toContain("postgresql://u:p@h/db");
   });
 
+  it("redacts keys at arbitrary nesting depth", () => {
+    const { stream, raw } = capture();
+    createLogger({ destination: stream }).info({
+      request: {
+        context: {
+          integration: {
+            credentials: { accessToken: "deep-secret", ok: true },
+          },
+        },
+      },
+    });
+    expect(raw()).not.toContain("deep-secret");
+  });
+
+  it("redacts keys regardless of casing", () => {
+    const { stream, raw } = capture();
+    createLogger({ destination: stream }).info({
+      headers: { Authorization: "Bearer abc", "X-Other": "1" },
+      credentials: { AccessToken: "case-secret" },
+    });
+    expect(raw()).not.toContain("Bearer abc");
+    expect(raw()).not.toContain("case-secret");
+  });
+
+  it("redacts sensitive values in child bindings", () => {
+    const { stream, raw } = capture();
+    const logger = createLogger({ destination: stream });
+    logger.child({ token: "binding-secret", module: "x" }).info("hi");
+    expect(raw()).not.toContain("binding-secret");
+  });
+
   it("includes base fields and child context", () => {
     const { stream, lines } = capture();
     const logger = createLogger({
