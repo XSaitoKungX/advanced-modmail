@@ -1,4 +1,10 @@
+import { config } from "@dotenvx/dotenvx";
 import { defineConfig } from "drizzle-kit";
+
+// Load .env the same way src/config/env does at runtime, so a
+// DATABASE_URL configured only in .env is honored by drizzle-kit
+// commands instead of silently falling back to the local dev database.
+config({ quiet: true });
 
 export default defineConfig({
   dialect: "postgresql",
