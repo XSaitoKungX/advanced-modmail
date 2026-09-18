@@ -30,13 +30,13 @@ This roadmap is intentionally ordered. New implementation work should normally f
 
 ## Phase 2 - Persistence foundation
 
-- [ ] Select PostgreSQL query/ORM/migration tooling through a dedicated issue.
-- [ ] Define initial schema and migration policy.
-- [ ] Implement database connection lifecycle.
-- [ ] Add tenant-scoped repository abstractions.
-- [ ] Add database integration-test environment.
-- [ ] Document backup/restore expectations.
-- [ ] Add versioned guild-configuration persistence.
+- [x] Select PostgreSQL query/ORM/migration tooling through a dedicated issue.
+- [x] Define initial schema and migration policy.
+- [x] Implement database connection lifecycle.
+- [x] Add tenant-scoped repository abstractions.
+- [x] Add database integration-test environment.
+- [x] Document backup/restore expectations.
+- [x] Add versioned guild-configuration persistence.
 
 ## Phase 3 - Discord runtime foundation
 

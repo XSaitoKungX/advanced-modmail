@@ -2,3 +2,4 @@ dist/
 coverage/
 .pnpm-store/
 pnpm-lock.yaml
+src/database/migrations/meta/

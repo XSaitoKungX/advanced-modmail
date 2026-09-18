@@ -114,6 +114,24 @@ corepack enable
 pnpm install
 ```
 
+### Local database (optional until the runtime consumes it)
+
+PostgreSQL is the primary store. A local dev instance runs via Docker:
+
+```bash
+pnpm db:up        # start postgres on 127.0.0.1:5433
+pnpm db:migrate   # apply migrations (uses DATABASE_URL or the dev default)
+pnpm db:down      # stop and remove the container
+```
+
+Set `DATABASE_URL` in `.env` for real deployments; `docker-compose.yml` also
+creates a `relaya_test` database. Database integration tests run only when
+`DATABASE_TEST_URL` is set and skip cleanly otherwise:
+
+```bash
+DATABASE_TEST_URL=postgres://relaya:relaya-dev@localhost:5433/relaya_test pnpm test
+```
+
 ### Common commands
 
 | Command              | Description                                      |
@@ -121,6 +139,10 @@ pnpm install
 | `pnpm build`         | Compile `src/` to `dist/` with `tsc`.            |
 | `pnpm check`         | Run format check, lint, typecheck, tests, build. |
 | `pnpm clean`         | Remove build output.                             |
+| `pnpm db:generate`   | Generate a SQL migration from schema changes.    |
+| `pnpm db:migrate`    | Apply pending migrations via drizzle-kit.        |
+| `pnpm db:up`         | Start the local Postgres container.              |
+| `pnpm db:down`       | Stop the local Postgres container.               |
 | `pnpm format`        | Format the repository with Prettier.             |
 | `pnpm format:check`  | Verify formatting without writing.               |
 | `pnpm lint`          | Run ESLint.                                      |

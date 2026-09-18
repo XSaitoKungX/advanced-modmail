@@ -40,8 +40,12 @@ src/
     env/ guild/ defaults/
                     process.env is read here, nowhere else
 
-  database/         persistence: migrations, repositories, models
-    migrations/ repositories/ models/
+  database/         persistence (Drizzle ORM + postgres.js)
+    client.ts       connection lifecycle: createDatabase, healthCheck, close
+    migrate.ts      runMigrations entry point (bootstrap never auto-migrates)
+    schema/         pgTable definitions - source for types and migrations
+    migrations/     generated SQL (drizzle-kit) - never hand-edit
+    repositories/   tenant-scoped repositories (explicit guildId per call)
 
   locales/          localization resources
     de-DE/ en-US/
